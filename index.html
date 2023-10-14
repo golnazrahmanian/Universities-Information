@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: rgb(75, 63, 251);
+            background: radial-gradient(circle, rgba(75, 63, 251, 1) 0%, rgba(18, 4, 7, 1) 100%);
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            width: 100%;
+            margin: 20px 0;
+            color: white;
+            text-transform: capitalize;
+        }
+
+        label {
+            font-size: large;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+
+        }
+
+        #example {
+            margin-top: 20px;
+        }
+
+        #country {
+            width: 200px;
+        }
+
+        #list {
+            width: 40%;
+            padding: 20px;
+            border: 2px solid rgb(255, 255, 255);
+            margin: 50px auto;
+            border-radius: 10px;
+        }
+
+        .art {
+            width: 100%;
+            height: 100px;
+            border-bottom: 1px solid rgb(159, 151, 151);
+            padding: 10px;
+            display: flex;
+
+            >figure {
+                width: 40%;
+
+                >img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            >div {
+                width: 60%;
+                padding-left: 20px;
+                color: #ffffff;
+            }
+        }
+
+        button {
+            width: 10%;
+            height: 40px;
+            margin-top: 30px;
+            border-radius: 10px;
+            transition: 0.4s;
+        }
+
+        button:hover {
+            background: #131213;
+            color: #ffffff;
+        }
+
+        figure {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        figure>img {
+            width: 20%;
+            height: 20%;
+            margin-top: -5%;
+        }
+
+        #stu {
+            width: 10%;
+            height: 10%;
+            margin-top: 2%;
+        }
+    </style>
+</head>
+
+<body>
+    <figure>
+        <img id="stu" src="img/student.png" alt="">
+    </figure>
+    <h1>universities information</h1>
+    <label for="">enter country name:</label>
+    <input type="text" id="country">
+    <label for="" id="example">for example: france, iran, china, italy...</label>
+    <button onclick="getData()">click</button>
+    <div id="list"></div>
+    <figure>
+        <img src="img/uni.webp" alt="">
+    </figure>
+
+    <script>
+        function getData() {
+
+            document.getElementById('list').innerHTML = ''
+
+            country = document.getElementById('country').value
+
+            fetch('http://universities.hipolabs.com/search?country=' + country)
+                .then(res => res.json())
+                .then(val => {
+                    val.map((item) => {
+                        let art = document.createElement('article')
+                        art.classList.add('art')
+                        art.innerHTML = `
+                            <div>
+                                <h3>${item.name}</h3>
+                                <h3>${item.domains}</h3>
+                            </div>
+                        `
+                        document.getElementById('list').appendChild(art)
+                    })
+                })
+        }
+    </script>
+</body>
+
+</html>
